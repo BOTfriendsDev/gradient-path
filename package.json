@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "postinstall": "yarn build",
+    "prepare": "yarn build",
     "version": "auto-changelog -p && git add CHANGELOG.md",
     "release": "np",
     "start": "start-storybook",
