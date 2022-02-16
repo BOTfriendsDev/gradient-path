@@ -4,13 +4,14 @@ import { svgElem, styleAttrs, segmentToD, convertPathToNode } from './_utils';
 export const DEFAULT_PRECISION = 2;
 
 export default class GradientPath {
-  constructor({ path, segments, samples, precision = DEFAULT_PRECISION }) {
+  constructor({ path, segments, samples, precision = DEFAULT_PRECISION, keepOriginalPath = false }) {
     // If the path being passed isn't a DOM node already, make it one
     this.path = convertPathToNode(path);
 
     this.segments = segments;
     this.samples = samples;
     this.precision = precision;
+    this.keepOriginalPath = keepOriginalPath;
 
     // Store the render cycles that the user creates
     this.renders = [];
@@ -28,7 +29,9 @@ export default class GradientPath {
     this.svg.appendChild(this.group);
 
     // Remove the main path once we have the data values
-    this.path.parentNode.removeChild(this.path);
+    if (!this.keepOriginalPath) {
+      this.path.parentNode.removeChild(this.path);
+    }
   }
 
   render({ type, stroke, strokeWidth, fill, width }) {
